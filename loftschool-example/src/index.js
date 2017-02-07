@@ -1,3 +1,5 @@
+'use strict';
+
 /* ДЗ 1 - Функции */
 
 /*
@@ -6,7 +8,7 @@
  Функция должна принимать один аргумент и возвращать его
  */
 function returnFirstArgument(arg) {
-	return arg;
+    return arg;
 }
 
 /*
@@ -26,13 +28,13 @@ function defaultParameterValue(a, b = 100) {
  Количество переданных аргументов заранее неизвестно
  */
 function returnArgumentsArray() {
-	var args = [];
+    var args = [];
 
-	for (var i = 0; i < arguments.length; i++) {
-		args[i] = arguments[i];
-	}
+    for (var i = 0; i < arguments.length; i++) {
+        args[i] = arguments[i];
+    }
 
-	return args;
+    return args;
 }
 
 /*
@@ -41,11 +43,10 @@ function returnArgumentsArray() {
  Функция должна принимать другую функцию и возвращать результат вызова переданной функции
  */
 function returnFnResult(fn) {
+    var result = fn();
 
-	var result = fn();
-	return result;
+    return result;
 }
-
 /*
  Задание 5:
 
@@ -55,12 +56,9 @@ function returnFnResult(fn) {
 
 function returnCounter(number = 0) {
 
-	return function() {
-		number++;
-		return number;
-	}
-
-
+    return function () {
+        return ++number;
+    }
 }
 
 /*
@@ -70,11 +68,17 @@ function returnCounter(number = 0) {
  Функция должна привязать переданные аргументы к функции   и вернуть получившуюся функцию
  */
 function bindFunction(fn) {
+    var args = [];
 
+    for (var i = 1; i < arguments.length; i++) {
+        args[i - 1] = arguments[i];
+    }
 
+    return function () {
+        return fn.apply(null, args);
+    };
 
 }
-
 export {
     returnFirstArgument,
     defaultParameterValue,

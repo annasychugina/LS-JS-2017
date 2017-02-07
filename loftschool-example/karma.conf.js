@@ -14,14 +14,14 @@ module.exports = function(config) {
         },
         reporters: ['mocha'],
         port: 9876,
-        browsers: ['Firefox'],
+        browsers: ['Chrome'],
         captureTimeout: 60000,
         singleRun: true,
         plugins: [
             require('karma-mocha'),
             require('karma-webpack'),
             require('karma-mocha-reporter'),
-            require('karma-firefox-launcher'),
+            require('karma-chrome-launcher'),
             require('karma-sourcemap-loader')
         ]
     });
