@@ -68,15 +68,23 @@ function returnCounter(number = 0) {
  Функция должна привязать переданные аргументы к функции   и вернуть получившуюся функцию
  */
 function bindFunction(fn) {
-    var args = [];
+    // c apply
+    // var args = [];
+    //
+    // for (var i = 1; i < arguments.length; i++) {
+    //     args[i - 1] = arguments[i];
+    // }
+    //
+    // return function () {
+    //     return fn.apply(null, args);
+    // };
 
+    // c bind
     for (var i = 1; i < arguments.length; i++) {
-        args[i - 1] = arguments[i];
+        fn = fn.bind(null, arguments[i]);
     }
 
-    return function () {
-        return fn.apply(null, args);
-    };
+    return fn;
 
 }
 export {
