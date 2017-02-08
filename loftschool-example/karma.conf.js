@@ -16,7 +16,7 @@ module.exports = function(config) {
         port: 9876,
         browsers: ['Chrome'],
         captureTimeout: 60000,
-        singleRun: true,
+        singleRun: false,
         plugins: [
             require('karma-mocha'),
             require('karma-webpack'),

@@ -26,6 +26,7 @@ function isAllTrue(array, fn) {
             result = false;
         }
     }
+
     return result;
 }
 
@@ -55,6 +56,7 @@ function isSomeTrue(array, fn) {
             result = true;
         }
     }
+
     return result;
 }
 
@@ -67,27 +69,21 @@ function isSomeTrue(array, fn) {
  - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
-
+    var array = [];
 
     if (typeof fn !== 'function') {
         throw new Error('fn is not a function');
-    };
-
-
-
-    try {
-        for (var i = 1; i < arguments.length; i++) {
-            fn(arguments[i]);
-        }
-
-
-    } catch(e) {
-        for (var i = 1; i < arguments.length; i++) {
-            return arguments[i];
-        }
-
     }
 
+    for (var i = 1; i < arguments.length; i++) {
+        try {
+            fn(arguments[i]);
+        } catch (e) {
+            array.push(arguments[i]);
+        }
+    }
+
+    return array;
 
 }
 
@@ -97,10 +93,9 @@ function returnBadArguments(fn) {
  Исправьте условие внутри if таким образом, чтобы функция возвращала true
  */
 function findError(data1, data2) {
-    return (function() {
+    return (function () {
         for (var i = 0; i < data1.length; i++) {
-            debugger;
-            if (data1[i] !== data2[i]) {
+            if (String(data1[i]) !== String(data2[i])) {
                 return false;
             }
         }
@@ -128,42 +123,47 @@ function calculator(number = 0) {
 
     if (!(Number.isFinite(result))) {
         throw new Error('number is not a number');
-    };
-        var o = {
-        sum: function() {
+    }
+
+    var o = {
+        sum: function () {
             for (var i = 0; i < arguments.length; i++) {
                 result += arguments[i];
             }
+
             return result;
         },
-        dif: function() {
+        dif: function () {
             for (var i = 0; i < arguments.length; i++) {
                 result -= arguments[i];
             }
+
             return result;
         },
-        div: function() {
+        div: function () {
 
-                for (var i = 0; i < arguments.length; i++) {
+            for (var i = 0; i < arguments.length; i++) {
 
-                    if (arguments[i] === 0) {
-                        throw new Error('division by 0')
-                    } else {
-                        result /= arguments[i];
-                    }
+                if (arguments[i] === 0) {
+                    throw new Error('division by 0')
+                } else {
+                    result /= arguments[i];
                 }
-                return result;
+            }
+
+            return result;
 
         },
-        mul: function() {
+        mul: function () {
             for (var i = 0; i < arguments.length; i++) {
                 result *= arguments[i];
             }
+
             return result;
         },
     }
-    return o;
 
+    return o;
 }
 
 export {
