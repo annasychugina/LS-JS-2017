@@ -11,7 +11,7 @@
  */
 function isAllTrue(array, fn) {
 
-    if ((array.length === 0) || !(array instanceof Array)) {
+    if (!Array.isArray(array) || !array.length) {
         throw new Error('empty array');
     }
 
@@ -40,8 +40,13 @@ function isAllTrue(array, fn) {
  Зарпещено использовать встроенные методы для работы с массивами
  */
 function isSomeTrue(array, fn) {
-
+    /*
     if ((array.length === 0) || !(array instanceof Array)) {
+        throw new Error('empty array');
+    }
+    */
+
+    if (!Array.isArray(array) || !array.length) {
         throw new Error('empty array');
     }
 
