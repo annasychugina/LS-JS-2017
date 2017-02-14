@@ -122,6 +122,9 @@ function upperProps(obj) {
 function slice(array, from, to = array.length) {
     var result = [];
 
+    // from = (typeof from === 'undefined' || from < -array.length) ? 0 : from;
+    // from = (from < 0) ? array.length + from : from;
+
     if (!from || from < -array.length) {
         from = 0;
     }
