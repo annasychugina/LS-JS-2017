@@ -172,11 +172,11 @@ function collectDOMStat(root) {
                 counter.tags[child.tagName] = 1;
             }
             if (child.classList.length) {
-                for (let nodeClass of child.classList) {
-                    if (counter.classes.hasOwnProperty(nodeClass)) {
-                        counter.classes[nodeClass]++;
+                for (let classname of child.classList) {
+                    if (counter.classes.hasOwnProperty(classname)) {
+                        counter.classes[classname]++;
                     } else {
-                        counter.classes[nodeClass] = 1;
+                        counter.classes[classname] = 1;
                     }
                 }
             }
