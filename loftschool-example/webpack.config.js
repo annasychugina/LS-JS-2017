@@ -14,8 +14,8 @@ loaders.push({
 
 module.exports = {
     entry: {
-        main: './hw5/src/index.js',
-        //dnd: './hw5/src/dnd.js'
+        //main: './hw5/src/index.js',
+        dnd: './hw5/src/dnd.js'
     },
     output: {
         filename: '[hash].js',
@@ -26,12 +26,12 @@ module.exports = {
         loaders
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compress: {
-                drop_debugger: false
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     sourceMap: true,
+        //     compress: {
+        //         drop_debugger: false
+        //     }
+        // }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
             title: 'Main',
