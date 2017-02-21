@@ -13,7 +13,10 @@ loaders.push({
 });
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        //main: './hw5/src/index.js',
+        dnd: './hw5/src/dnd.js'
+    },
     output: {
         filename: '[hash].js',
         path: './dist'
@@ -23,11 +26,24 @@ module.exports = {
         loaders
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin(),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     sourceMap: true,
+        //     compress: {
+        //         drop_debugger: false
+        //     }
+        // }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'Loft School sample project',
-            template: 'index.hbs'
+            title: 'Main',
+            template: 'index.hbs',
+            filename: 'index.html',
+            chunks: ['main']
+        }),
+        new HtmlPlugin({
+            title: 'DZ',
+            template: 'hw5/dnd.hbs',
+            filename: 'dnd.html',
+            chunks: ['dnd']
         }),
         new CleanWebpackPlugin(['dist'])
     ]
