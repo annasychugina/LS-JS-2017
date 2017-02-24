@@ -37,31 +37,33 @@ let loadedTowns = [];
  *
  * @return {Promise<Array<{name: string}>>}
  */
+
 function loadTowns() {
     return require('./index').loadAndSortTowns();
 }
 
-loadTowns().then(
-    function (towns) {
+loadTowns().then (
+    function(towns) {
         loadingBlock.style.display = 'none';
-        filterBlock.removeAttribute('style');
+        filterBlock.hidden = false;
         loadedTowns = towns;
     },
     function() {
-        let repeatBtn = document.createElement('button');
-        let repeatTxt = document.createElement('p');
+        let repeatButton = document.createElement('button');
+        let repeatText = document.createElement('p');
 
-        repeatTxt.innerText = 'Не удалось загрузить города';
-        repeatBtn.innerText = 'Повторить';
+        repeatText.innerText = 'Не удлось загрузить города';
+        repeatButton.innerText = 'Повторить';
 
-        let handler = function() {
+        let handler = function () {
 
             loadTowns();
         };
 
-        repeatBtn.addEventListener('click', handler);
-        repeatTxt.appendChild(repeatBtn);
-        homeworkContainer.appendChild(repeatTxt);
+        repeatButton.addEventListener('click', handler);
+        repeatText.appendChild(repeatButton);
+        homeworkContainer.appendChild(repeatText);
+
     });
 
 /**
@@ -78,7 +80,12 @@ loadTowns().then(
  * @return {boolean}
  */
 function isMatching(full, chunk) {
-    return Boolean(full.toLowerCase().indexOf(chunk.toLowerCase()) + 1);
+    if (full.toUpperCase().indexOf(chunk.toUpperCase()) === -1) {
+
+        return false;
+    }
+
+    return true;
 }
 
 let loadingBlock = homeworkContainer.querySelector('#loading-block');
@@ -90,11 +97,12 @@ filterInput.addEventListener('keyup', function() {
     let value = this.value.trim();
 
     filterResult.innerHTML = '';
-    for (let city of loadedTowns) {
-        if (isMatching(city.name, value) && value.length) {
+
+    for (let town of loadedTowns) {
+        if (isMatching(town.name, value) && value.length) {
             let div = document.createElement('div');
 
-            div.textContent = city.name;
+            div.textContent = town.name;
             filterResult.appendChild(div);
         }
     }
