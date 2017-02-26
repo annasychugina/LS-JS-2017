@@ -40,7 +40,7 @@ module.exports = {
         }),
         new HtmlPlugin({
             title: 'Cookie editor',
-            template: 'hw7/cookie.hbs',
+            template: 'cookie.hbs',
             filename: 'cookie.html',
             chunks: ['cookie']
         }),
