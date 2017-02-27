@@ -14,8 +14,8 @@ loaders.push({
 
 module.exports = {
     entry: {
-        main: './hw6/src/index.js',
-        towns: './hw6/src/towns.js'
+        main: './hw7/src/index.js',
+        cookie: './hw7/src/cookie.js'
     },
     output: {
         filename: '[chunkhash].js',
@@ -39,10 +39,10 @@ module.exports = {
             chunks: ['main']
         }),
         new HtmlPlugin({
-            title: 'Homework',
-            template: 'hw6/src/towns.hbs',
-            filename: 'towns.html',
-            chunks: ['towns']
+            title: 'Cookie editor',
+            template: 'cookie.hbs',
+            filename: 'cookie.html',
+            chunks: ['cookie']
         }),
         new CleanWebpackPlugin(['dist'])
     ]
