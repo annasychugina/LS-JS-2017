@@ -3,10 +3,10 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['mocha'],
         files: [
-            './hw5/test/**/*.js'
+            './hw6/test/**/*.js'
         ],
         preprocessors: {
-            './hw5/test/**/*.js': ['webpack', 'sourcemap'],
+            './hw6/test/**/*.js': ['webpack', 'sourcemap'],
         },
         webpack: require('./webpack.config.test'),
         webpackMiddleware: {
@@ -15,6 +15,11 @@ module.exports = function(config) {
         reporters: ['mocha'],
         port: 9876,
         browsers: ['Chrome'],
+        client: {
+            mocha: {
+                timeout : 4000
+            }
+        },
         captureTimeout: 60000,
         singleRun: false,
         plugins: [

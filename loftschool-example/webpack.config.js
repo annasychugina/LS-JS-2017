@@ -14,11 +14,11 @@ loaders.push({
 
 module.exports = {
     entry: {
-        //main: './hw5/src/index.js',
-        dnd: './hw5/src/dnd.js'
+        main: './hw6/src/index.js',
+        towns: './hw6/src/towns.js'
     },
     output: {
-        filename: '[hash].js',
+        filename: '[chunkhash].js',
         path: './dist'
     },
     devtool: 'source-map',
@@ -34,16 +34,15 @@ module.exports = {
         // }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'Main',
+            title: 'Main Homework',
             template: 'index.hbs',
-            filename: 'index.html',
             chunks: ['main']
         }),
         new HtmlPlugin({
-            title: 'DZ',
-            template: 'hw5/dnd.hbs',
-            filename: 'dnd.html',
-            chunks: ['dnd']
+            title: 'Homework',
+            template: 'hw6/src/towns.hbs',
+            filename: 'towns.html',
+            chunks: ['towns']
         }),
         new CleanWebpackPlugin(['dist'])
     ]
