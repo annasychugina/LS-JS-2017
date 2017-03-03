@@ -38,8 +38,6 @@ let loadedTowns = [];
  * @return {Promise<Array<{name: string}>>}
  */
 
-
-
 function loadTowns() {
     return require('./index').loadAndSortTowns();
 }

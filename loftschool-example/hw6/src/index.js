@@ -24,7 +24,6 @@ function delayPromise(seconds) {
 
 function loadAndSortTowns() {
     return new Promise((resolve) => {
-
         fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
             .then(
                 response => {
