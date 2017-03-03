@@ -36,6 +36,7 @@ module.exports = {
         new HtmlPlugin({
             title: 'Main Homework',
             template: 'index.hbs',
+            filename: 'index.html',
             chunks: ['main']
         }),
         new HtmlPlugin({
