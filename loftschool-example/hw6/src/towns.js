@@ -96,7 +96,7 @@ let filterResult = homeworkContainer.querySelector('#filter-result');
 filterInput.addEventListener('keyup', function() {
     let value = this.value.trim();
 
-    // filterResult.innerHTML = '';
+    filterResult.innerHTML = '';
 
     for (let town of loadedTowns) {
         if (isMatching(town.name, value) && value.length) {
