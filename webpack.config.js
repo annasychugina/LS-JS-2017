@@ -13,12 +13,9 @@ loaders.push({
 });
 
 module.exports = {
-    entry: {
-        main: './hw7/src/index.js',
-        cookie: './hw7/src/cookie.js'
-    },
+    entry: './src/index.js',
     output: {
-        filename: '[chunkhash].js',
+        filename: '[hash].js',
         path: './dist'
     },
     devtool: 'source-map',
@@ -26,23 +23,16 @@ module.exports = {
         loaders
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     sourceMap: true,
-        //     compress: {
-        //         drop_debugger: false
-        //     }
-        // }),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            compress: {
+                drop_debugger: false
+            }
+        }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'Main Homework',
-            template: 'index.hbs',
-            chunks: ['main']
-        }),
-        new HtmlPlugin({
-            title: 'Cookie editor',
-            template: 'cookie.hbs',
-            filename: 'cookie.html',
-            chunks: ['cookie']
+            title: 'Loft School sample project',
+            template: 'index.hbs'
         }),
         new CleanWebpackPlugin(['dist'])
     ]
