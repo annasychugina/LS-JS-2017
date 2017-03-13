@@ -13,9 +13,11 @@ loaders.push({
 });
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        main: './src/index.js',
+    },
     output: {
-        filename: '[hash].js',
+        filename: '[chunkhash].js',
         path: './dist'
     },
     devtool: 'source-map',
@@ -31,8 +33,10 @@ module.exports = {
         }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'Loft School sample project',
-            template: 'index.hbs'
+            title: 'friends editor',
+            template: 'index.hbs',
+            filename: 'index.html',
+            chunks: ['main']
         }),
         new CleanWebpackPlugin(['dist'])
     ]
