@@ -1,14 +1,56 @@
 {{#each friends}}
-    <div class="friend">
-        <img class="photo" src="{{photo_100}}">
-        <div class="name">{{first_name}} {{last_name}}</div>
-        <div class="location">
-            {{#if country}}
-                <div class="country">{{country.title}}</div>
-            {{/if}}
-            {{#if city}}
-                <div class="city">{{city.title}}</div>
-            {{/if}}
-        </div>
-    </div>
+	<li class="friend" draggable="true">
+
+			<img class="friend__photo" src="{{photo_100}}">
+			<p class="friend__name">{{first_name}} {{last_name}}</p>
+			<button class="friend__add"></button>
+
+
+	</li>
 {{/each}}
+
+
+<!--.friend {-->
+<!--display: flex;-->
+<!--justify-content: space-between;-->
+<!--align-items: center;-->
+<!--padding: 6px;-->
+<!--border-bottom: 1px solid #f0f0f0;-->
+<!--cursor: move;-->
+<!--}-->
+
+<!--.friend__content {-->
+<!--display: flex;-->
+<!--align-items: center;-->
+<!--}-->
+
+<!--.friend__photo {-->
+<!--height: 45px;-->
+<!--border-radius: 50%;-->
+<!--margin-right: 6px;-->
+<!--}-->
+
+<!--.friend__name {-->
+<!--padding: 10px;-->
+<!--color: #4f4f4f;-->
+<!--font-size: 12px;-->
+<!--}-->
+
+<!--.friend__add {-->
+<!--position: absolute;-->
+<!--top: 0;-->
+<!--right: 20px;-->
+<!--bottom: 0;-->
+<!--margin: auto;-->
+<!--width: 20px;-->
+<!--height: 20px;-->
+<!--border: none;-->
+<!--cursor: pointer;-->
+<!--opacity: 0.75;-->
+<!--outline: none;-->
+<!--background: url("/images/add.png") center center no-repeat transparent;-->
+<!--}-->
+
+
+
+

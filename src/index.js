@@ -17,13 +17,10 @@ function login() {
 }
 
 function callAPI(method, params) {
-    return new Promise((resolve, reject) => {
-        VK.api(method, params, function(result) {
-            if (result.error) {
-                reject();
-            } else {
-                resolve(result.response);
-            }
+    return new Promise(function(resolve) {
+        VK.api(method, params, function() {
+            resolve(arguments[0].response);
         });
     });
 }
+

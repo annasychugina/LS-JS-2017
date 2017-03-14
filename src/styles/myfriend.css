@@ -77,14 +77,15 @@ body {
 
 .friends-container__content {
 	width: 50%;
-	display: flex;
-	justify-content: space-between;
+	border-right: 3px solid #f0f0f0;
 }
 
 .friends-container__list-tittle {
-	font-size: 12px;
+	font-size: 16px;
 	color: #4f4f4f;
-	padding: 5px 25px;
+	padding: 15px 25px 0px;
+	border-bottom: 1px solid #f0f0f0;
+	font-weight: bold;
 }
 
 .friends-container__bottom {
@@ -93,6 +94,14 @@ body {
 	width: 100%;
 	padding: 10px;
 	background: #f1f1f1;
+}
+
+.friends-container__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	max-height: 350px;
+	overflow: auto;
 }
 
 .friends-container__save {
@@ -111,14 +120,40 @@ body {
 	opacity: .9;
 }
 
+.friend {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 5px 25px;
+	border-bottom: 1px solid #f0f0f0;
+	cursor: move;
+}
 
+.friend__photo {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
 
+.friend__name {
+	color: #4f4f4f;
+	font-size: 12px;
+	padding-left: 7px;
+	font-weight: bold;
+}
 
-
-
-
-
-
+.friend__add {
+	position: absolute;
+	top: 0; right: 20px; bottom: 0;
+	margin: auto;
+	width: 20px;
+	height: 20px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.75;
+	outline: none;
+	background: url("/images/add.png") center center no-repeat transparent;
+}
 
 
 
