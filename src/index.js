@@ -73,16 +73,6 @@ function findById(id) {
     }
 }
 
-function removeById(id) {
-    for (let i = 0; i < loadedFriendsArray.length; i++) {
-        for (let prop in loadedFriendsArray[i]) {
-            if (loadedFriendsArray[i][prop] === id) {
-                loadedFriendsArray.splice(i, 1);
-            }
-        }
-    }
-}
-
 /**
  * Функция меняет местами друзей в списках
  */
@@ -129,7 +119,15 @@ function loadFriends() {
         filteredFriends = JSON.parse(localStorage.filteredFriends);
         filteredFriends.forEach((id) =>{
             addedFriendsArray.push(findById(id));
-            removeById(id);
+
+            for (let i = 0; i < loadedFriendsArray.length; i++) {
+                for (let prop in loadedFriendsArray[i]) {
+                    if (loadedFriendsArray[i][prop] === id) {
+                        loadedFriendsArray.splice(i, 1);
+                    }
+                }
+            }
+
         });
     }
 
