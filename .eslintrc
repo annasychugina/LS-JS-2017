@@ -9,6 +9,11 @@
     "mocha": true,
     "es6": true
   },
+  "globals": {
+    "Proxy": true,
+    "VK": true,
+    "Promise": true
+  },
   "extends": [
     "eslint:recommended"
   ],

@@ -121,13 +121,13 @@ body {
 }
 
 .friend {
-	position: relative;
-	display: flex;
-	align-items: center;
-	padding: 5px 25px;
-	border-bottom: 1px solid #f0f0f0;
-	cursor: move;
-}
+	 position: relative;
+	 display: flex;
+	 align-items: center;
+	 padding: 5px 25px;
+	 border-bottom: 1px solid #f0f0f0;
+	 cursor: move;
+ }
 
 .friend__photo {
 	border-radius: 50%;

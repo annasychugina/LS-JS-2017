@@ -1,35 +1,19 @@
 'use strict';
-require('./styles/myfriend.css');
 
+require('./styles/myfriend.css');
 
 let templateLoaded = require('../friend-template.hbs');
 let templateAdded = require('../friend-added.hbs');
-
 let loadedFriends = document.getElementById('loaded');
 let addedFriends = document.getElementById('added');
 let saveButton = document.getElementById('save');
-let leftSearch = document.getElementById('leftSearch');
-let rightSearch = document.getElementById('rightSearch');
-
-
-
 let content = document.getElementById('content');
-
 let searchInputLeft = document.getElementById('leftSearch');
-
-let searchInputRight = document.getElementById('searchInputRight');
-
-// let searchcontainer = document.querySelectorAll('friends-container__search');
-// console.log(searchcontainer);
-
-
-
+let searchInputRight = document.getElementById('rightSearch');
 let filteredFriends = [];
 let addedFriendsArray = [];
 let loadedFriendsArray = [];
 
-
-let dragFriend, dropList;
 /**
  * Подключение к VK API
  */
@@ -65,7 +49,6 @@ function callAPI(method, params) {
     })
 }
 
-
 /**
  * Сохранение данных в localstorage
  */
@@ -78,12 +61,10 @@ function saveList() {
     localStorage.filteredFriends = JSON.stringify(filteredFriends);
 }
 
-
 saveButton.addEventListener('click', saveList);
 
-
 function findById(id) {
-    for (let i = 0; i < loadedFriendsArray.length; i++){
+    for (let i = 0; i < loadedFriendsArray.length; i++) {
         for (let prop in loadedFriendsArray[i]) {
             if (loadedFriendsArray[i][prop] === id) {
                 return loadedFriendsArray[i];
@@ -92,12 +73,11 @@ function findById(id) {
     }
 }
 
-
 function removeById(id) {
-    for (let i = 0; i < loadedFriendsArray.length; i++){
+    for (let i = 0; i < loadedFriendsArray.length; i++) {
         for (let prop in loadedFriendsArray[i]) {
             if (loadedFriendsArray[i][prop] === id) {
-                loadedFriendsArray.splice(i,1);
+                loadedFriendsArray.splice(i, 1);
             }
         }
     }
@@ -110,7 +90,7 @@ function removeById(id) {
 function swapFriends(e) {
     if (e.target.className === 'friend__add') {
         loadedFriendsArray.forEach((item, idx)=>{
-            if(item['id'] == e.target.parentNode.dataset.id){
+            if (item['id'] == e.target.parentNode.dataset.id) {
                 addedFriendsArray.push(item);
                 loadedFriendsArray.splice(idx, 1);
             }
@@ -119,7 +99,7 @@ function swapFriends(e) {
 
     if (e.target.className === 'friend__close') {
         addedFriendsArray.forEach((item, idx)=>{
-            if(item['id'] == e.target.parentNode.dataset.id){
+            if (item['id'] == e.target.parentNode.dataset.id) {
                 loadedFriendsArray.push(item);
                 addedFriendsArray.splice(idx, 1);
             }
@@ -132,12 +112,8 @@ function swapFriends(e) {
     });
 
     addedFriends.innerHTML = templateAdded({
-            added: addedFriendsArray
+        added: addedFriendsArray
     });
-
-    // filter(rightSearch.value, rightSearch);
-    // filter(leftSearch.value, leftSearch);
-
 
 }
 
@@ -166,13 +142,14 @@ function loadFriends() {
     });
 }
 
-// function isMatching(full, chunk) {
-//     return full.toLowerCase().indexOf(chunk.toLowerCase()) > -1;
-// }
+/**
+ * Drag-in-drop
+ */
 
+let dragFriend;
+let dropList;
 
 function friendDragStart(e) {
-
 
     if (!(e.target instanceof Element)) {
         return;
@@ -183,7 +160,6 @@ function friendDragStart(e) {
     }
 
     e.target.style.cursor = 'move';
-
 
     if (e.target.className === 'friend') {
         dragFriend = e.target;
@@ -199,25 +175,28 @@ function friendDragOver(e) {
 }
 
 function friendDrop(e) {
+
     // cursor
     e.preventDefault();
-    if (dragFriend.parentNode.id === "loaded") {
+    if (dragFriend.parentNode.id === 'loaded') {
 
-        loadedFriendsArray.forEach((item, idx)=>{
-            if (item['id'] == dragFriend.dataset.id){
+        loadedFriendsArray.forEach((item, idx) => {
+            if (item['id'] == dragFriend.dataset.id) {
                 addedFriendsArray.push(item);
-                loadedFriendsArray.splice(idx,1);
-                return true;
+                loadedFriendsArray.splice(idx, 1);
+
+                return;
             }
         });
 
-    } else if (dropList.id === "loaded") {
+    } else if (dropList.id === 'loaded') {
 
-        addedFriendsArray.forEach((item,idx)=>{
-            if(item['id'] == dragFriend.dataset.id){
+        addedFriendsArray.forEach((item, idx) => {
+            if (item['id'] == dragFriend.dataset.id) {
                 loadedFriendsArray.push(item);
-                addedFriendsArray.splice(idx,1);
-                return true;
+                addedFriendsArray.splice(idx, 1);
+
+                return;
             }
         });
     }
@@ -236,44 +215,55 @@ content.addEventListener('dragstart', friendDragStart);
 content.addEventListener('dragover', friendDragOver);
 content.addEventListener('drop', friendDrop);
 
-
+/**
+ * Поиск совпадений в строке
+ */
 
 function isMatching(full, chunk) {
     return Boolean(full.toLowerCase().indexOf(chunk.toLowerCase()) + 1);
 }
 
+/**
+ * Поиск друга в левой колонке
+ */
 
-function filterFriend(e) {
+function filterFriendLeft() {
     let value = searchInputLeft.value.trim();
 
-    let friends = document.querySelectorAll('.friend');
-    [...friends].forEach(function(friend) {
-
+    [... document.querySelectorAll('.friend')].forEach(function(friend) {
         let friendName = friend.querySelector('.friend__name').innerText;
-        console.log(friend);
 
         if (isMatching(friendName, value)) {
             friend.style.display = 'flex';
         } else {
             friend.style.display = 'none';
         }
-    })
 
+    })
 }
 
+/**
+ * Поиск друга в правой колонке
+ */
 
+function filterFriendRight() {
+    let value = searchInputLeft.value.trim();
 
+    [... document.querySelectorAll('.friend')].forEach(function(friend) {
 
-searchInputLeft.addEventListener('keyup', filterFriend);
+        let friendName = friend.querySelector('.friend__name').innerText;
 
+        if (isMatching(friendName, value)) {
+            friend.style.display = 'flex';
+        } else {
+            friend.style.display = 'none';
+        }
 
-// searchInputLeft.addEventListener('keyup', filterFriend);
+    })
+}
 
-
-
-// [...searchcontainer].forEach(function(item) {
-//     item.addEventListener('keyup', inputHandler)
-// });
+searchInputLeft.addEventListener('keyup', filterFriendLeft);
+searchInputRight.addEventListener('keyup', filterFriendRight);
 
 /**
  * Загрузка списков при перезагрузке
@@ -294,10 +284,3 @@ function restartList() {
 }
 
 restartList();
-
-
-
-
-
-
-
