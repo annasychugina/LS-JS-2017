@@ -228,7 +228,7 @@ function isMatching(full, chunk) {
 function filterFriendLeft() {
     let value = searchInputLeft.value.trim();
 
-    [... document.querySelectorAll('.friend')].forEach(function(friend) {
+    [...document.querySelectorAll('.friend')].forEach(function(friend) {
         let friendName = friend.querySelector('.friend__name').innerText;
 
         if (isMatching(friendName, value)) {
