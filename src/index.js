@@ -59,6 +59,7 @@ function saveList() {
         filteredFriends.push(item.id);
     });
     localStorage.filteredFriends = JSON.stringify(filteredFriends);
+    alert("Сохранено!");
 }
 
 saveButton.addEventListener('click', saveList);
