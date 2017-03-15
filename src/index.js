@@ -11,9 +11,18 @@ let saveButton = document.getElementById('save');
 let leftSearch = document.getElementById('leftSearch');
 let rightSearch = document.getElementById('rightSearch');
 
+
+
 let content = document.getElementById('content');
 
-// let searchInput = document.getElementById('friends-container__search');
+let searchInputLeft = document.getElementById('leftSearch');
+
+let searchInputRight = document.getElementById('searchInputRight');
+
+// let searchcontainer = document.querySelectorAll('friends-container__search');
+// console.log(searchcontainer);
+
+
 
 let filteredFriends = [];
 let addedFriendsArray = [];
@@ -229,13 +238,42 @@ content.addEventListener('drop', friendDrop);
 
 
 
+function isMatching(full, chunk) {
+    return Boolean(full.toLowerCase().indexOf(chunk.toLowerCase()) + 1);
+}
+
+
+function filterFriend(e) {
+    let value = searchInputLeft.value.trim();
+
+    let friends = document.querySelectorAll('.friend');
+    [...friends].forEach(function(friend) {
+
+        let friendName = friend.querySelector('.friend__name').innerText;
+        console.log(friend);
+
+        if (isMatching(friendName, value)) {
+            friend.style.display = 'flex';
+        } else {
+            friend.style.display = 'none';
+        }
+    })
+
+}
 
 
 
 
+searchInputLeft.addEventListener('keyup', filterFriend);
+
+
+// searchInputLeft.addEventListener('keyup', filterFriend);
 
 
 
+// [...searchcontainer].forEach(function(item) {
+//     item.addEventListener('keyup', inputHandler)
+// });
 
 /**
  * Загрузка списков при перезагрузке
