@@ -144,7 +144,9 @@ body {
 
 .friend__add {
 	position: absolute;
-	top: 0; right: 20px; bottom: 0;
+	top: 0;
+	right: 20px;
+	bottom: 0;
 	margin: auto;
 	width: 20px;
 	height: 20px;
@@ -155,6 +157,21 @@ body {
 	background: url("/images/add.png") center center no-repeat transparent;
 }
 
+.friend__close {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	bottom: 0;
+	margin: auto;
+	width: 20px;
+	height: 20px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.75;
+	outline: none;
+	transform: rotate(45deg);
+	background: url("/images/add.png") center center no-repeat transparent;
+}
 
 
 

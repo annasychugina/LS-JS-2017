@@ -1,25 +1,17 @@
+'use strict';
 require('./styles/myfriend.css');
+let templateLoaded = require('../friend-template.hbs');
+let templateAdded = require('../friend-added.hbs');
 
-let filterFrom = document.querySelector('#loaded');
-let selectedFriends = document.querySelector('#added');
-
-
+let loadedFriends = document.getElementById('loaded');
+let addedFriends = document.getElementById('added');
+let saveButton = document.getElementById('save');
 let leftSearch = document.getElementById('leftSearch');
 let rightSearch = document.getElementById('rightSearch');
 
-let addedFriends =  document.getElementById('added');
-let loadedFriends = document.getElementById('loaded');
-
-let headerBottom = document.querySelector('.friends-container__search');
-
-var friendTemplate = require('../friend-template.hbs');
-
-var friendsArray = [];
-var newList = [];
-var filteredFriends = [];
-
-let saveButton = document.getElementById('save');
-
+let filteredFriends = [];
+let addedFriendsArray = [];
+let loadedFriendsArray = [];
 
 /**
  * Подключение к VK API
@@ -56,101 +48,128 @@ function callAPI(method, params) {
     })
 }
 
-/**
- * Создаем новый элемент списка
- *
- * @param  {friend} friends - загруженные друзья
- * @return {templateFn} Шаблон Handlebars
- */
-
-function createFriendsDiv(friends) {
-    let templateFn = require('../friend-template.hbs');
-    let sortFriends = friends.sort(sortedFriendsById);
-
-    return templateFn({
-        friends: sortFriends
-    });
-}
 
 /**
- * Сортировка друзей по id
- */
-
-function sortedFriendsById(item1, item2) {
-    return (item1.id > item2.id) ? 1 : -1;
-}
-
-
-
-/**
- * Добавление друга в правую колонку по нажатию на кнопку
- */
-
-function loadFriends(event) {
-    let friend;
-
-    if (event.target.classList.contains('friend__add')) {
-        friend = event.target.closest('.friend');
-        friend.remove();
-        selectedFriends.insertBefore(friend, selectedFriends.firstElementChild);
-    }
-}
-
-
-/**
- * Добавление друга в левую колонку по нажатию на кнопку
- */
-
-function moveBackFriends(event) {
-    if (event.target.classList.contains('friend__add')) {
-        let friend = event.target.closest('.friend');
-        friend.remove();
-        filterFrom.insertBefore(friend, filterFrom.firstElementChild);
-    }
-}
-
-
-
-filterFrom.addEventListener('click', loadFriends);
-selectedFriends.addEventListener('click', moveBackFriends);
-
-
-
-function isMatching(full,chunk) {
-    if (full.toLowerCase().indexOf(chunk.toLowerCase()) != -1) {
-        return true;
-    }
-}
-
-
-/**
- * Сохранение в localstorage при нажатии на кнопку
+ * Сохранение данных в localstorage
  */
 
 function saveList() {
-    alert('Сохранено');
     filteredFriends = [];
-    newList.forEach(item => {
+    addedFriendsArray.forEach(item => {
         filteredFriends.push(item.id);
     });
-    // сериализация и запись в localstorage
     localStorage.filteredFriends = JSON.stringify(filteredFriends);
 }
 
 
-saveButton.addEventListener('click', () => {
-    saveList();
-});
+saveButton.addEventListener('click', saveList);
 
 
+function findById(id) {
+    for (let i = 0; i < loadedFriendsArray.length; i++){
+        for (let prop in loadedFriendsArray[i]) {
+            if (loadedFriendsArray[i][prop] === id) {
+                return loadedFriendsArray[i];
+            }
+        }
+    }
+}
 
 
+function removeById(id) {
+    for (let i = 0; i < loadedFriendsArray.length; i++){
+        for (let prop in loadedFriendsArray[i]) {
+            if (loadedFriendsArray[i][prop] === id) {
+                loadedFriendsArray.splice(i,1);
+            }
+        }
+    }
+}
+
+function isMatching(full, chunk) {
+        return full.toLowerCase().indexOf(chunk.toLowerCase()) > -1;
+}
 
 
-login()
-    .then(() => callAPI('friends.get', { v: 5.62, fields: ['photo_100'] }))
-    .then(result => filterFrom.innerHTML = createFriendsDiv(result.items))
-    .catch( (e) => console.error(e) );
+/**
+ * Функция меняет местами друзей в списках
+ */
+
+function swapFriends(e) {
+    if (e.target.className === 'friend__add') {
+        loadedFriendsArray.forEach((item, idx)=>{
+            if(item['id'] == e.target.parentNode.dataset.id){
+                addedFriendsArray.push(item);
+                loadedFriendsArray.splice(idx, 1);
+            }
+        });
+    }
+
+    if (e.target.className === 'friend__close') {
+        addedFriendsArray.forEach((item, idx)=>{
+            if(item['id'] == e.target.parentNode.dataset.id){
+                loadedFriendsArray.push(item);
+                addedFriendsArray.splice(idx, 1);
+            }
+        });
+
+    }
+
+    loadedFriends.innerHTML = templateLoaded({
+        loaded: loadedFriendsArray
+    });
+
+    addedFriends.innerHTML = templateAdded({
+            added: addedFriendsArray
+    });
+
+}
+
+loadedFriends.addEventListener('click', swapFriends);
+addedFriends.addEventListener('click', swapFriends);
+
+/**
+ * Выгрузка данных из localstorage на страницу
+ */
+
+function loadFriends() {
+    if (localStorage.filteredFriends) {
+        filteredFriends = JSON.parse(localStorage.filteredFriends);
+        filteredFriends.forEach((id) =>{
+            addedFriendsArray.push(findById(id));
+            removeById(id);
+        });
+    }
+
+
+    loadedFriends.innerHTML = templateLoaded({
+        loaded: loadedFriendsArray
+    });
+
+    addedFriends.innerHTML = templateAdded({
+        added: addedFriendsArray
+    });
+}
+
+
+/**
+ * Загрузка списков при перезагрузке
+ */
+
+function restartList() {
+    login()
+        .then(() => callAPI('friends.get', { v: 5.62, fields: ['photo_100'] }))
+        .then(result => {
+            loadedFriendsArray = result.items;
+        })
+        .then(() => loadFriends())
+        .catch(() => {
+            throw new Error('connection error');
+        });
+}
+
+restartList();
+
 
 
 
