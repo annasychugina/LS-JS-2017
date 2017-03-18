@@ -1,23 +1,25 @@
 'use strict';
 
-require('./styles/myfriend.css');
+require('./styles/main.scss');
 
 let templateLoaded = require('../friend-template.hbs');
 let templateAdded = require('../friend-added.hbs');
+
 let loadedFriends = document.getElementById('loaded');
 let addedFriends = document.getElementById('added');
 let saveButton = document.getElementById('save');
 let content = document.getElementById('content');
 let searchInputLeft = document.getElementById('leftSearch');
 let searchInputRight = document.getElementById('rightSearch');
+
 let filteredFriends = [];
 let addedFriendsArray = [];
 let loadedFriendsArray = [];
 
-/**
- * Подключение к VK API
- */
 
+/**
+ * @description Подключение к VK API.
+ */
 function login() {
     return new Promise((resolve, reject) => {
         VK.init({
@@ -34,9 +36,8 @@ function login() {
 }
 
 /**
- * Обращение к VK API
+ * @description Обращение к VK API.
  */
-
 function callAPI(method, params) {
     return new Promise((resolve, reject) => {
         VK.api(method, params, (result) => {
@@ -49,23 +50,9 @@ function callAPI(method, params) {
     })
 }
 
-
-
-
-function localStorageSettings() {
-    if ('localstorage' in window && window['localstorage'] !== null) {
-        console.log('storage is ready');
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
 /**
- * Сохранение данных в localstorage
+ * @description Сохранение данных в localStorage
  */
-
 function saveList() {
     filteredFriends = [];
     addedFriendsArray.forEach(item => {
@@ -82,10 +69,15 @@ function saveList() {
 
 saveButton.addEventListener('click', saveList);
 
+/** @description Поиск друга по id.
+ * @param {number} id пользователя.
+ * @return {object} список загруженных из VK пользователей
+ */
 function findById(id) {
     for (let i = 0; i < loadedFriendsArray.length; i++) {
         for (let prop in loadedFriendsArray[i]) {
             if (loadedFriendsArray[i][prop] === id) {
+
                 return loadedFriendsArray[i];
             }
         }
@@ -93,9 +85,8 @@ function findById(id) {
 }
 
 /**
- * Функция меняет местами друзей в списках
+ * @description Меняет местами друзей в списках
  */
-
 function swapFriends(e) {
     if (e.target.className === 'friend__add') {
         loadedFriendsArray.forEach((item, idx)=>{
@@ -130,7 +121,7 @@ loadedFriends.addEventListener('click', swapFriends);
 addedFriends.addEventListener('click', swapFriends);
 
 /**
- * Выгрузка данных из localstorage на страницу
+ * @description Выгрузка данных из localstorage на страницу
  */
 
 function loadFriends() {
@@ -159,15 +150,14 @@ function loadFriends() {
     });
 }
 
-/**
- * Drag-in-drop
- */
-
 let dragFriend;
 let dropList;
 
-function friendDragStart(e) {
+/**
+ * @description Реализация drag-n-drop
+ */
 
+function friendDragStart(e) {
     if (!(e.target instanceof Element)) {
         return;
     }
@@ -192,11 +182,8 @@ function friendDragOver(e) {
 }
 
 function friendDrop(e) {
-
-    // cursor
     e.preventDefault();
     if (dragFriend.parentNode.id === 'loaded') {
-
         loadedFriendsArray.forEach((item, idx) => {
             if (item['id'] == dragFriend.dataset.id) {
                 addedFriendsArray.push(item);
@@ -232,59 +219,36 @@ content.addEventListener('dragstart', friendDragStart);
 content.addEventListener('dragover', friendDragOver);
 content.addEventListener('drop', friendDrop);
 
-/**
- * Поиск совпадений в строке
+/** @description Поиск совпадений в строке.
+ * @param {string} full - имена друзей
+ * @param {string} chunk - введеное значение в поле input
+ * @return {boolean}
  */
-
 function isMatching(full, chunk) {
     return Boolean(full.toLowerCase().indexOf(chunk.toLowerCase()) + 1);
 }
 
-/**
- * Поиск друга в левой колонке
+/** @description Фильтрация.
+ * @param {object} search - значение поля input для поиска
+ * @param {object} arrayFriends - список друзей
  */
+function filterFriend(search, arrayFriends) {
+    let value = search.value.trim();
 
-function filterFriendLeft() {
-    let value = searchInputLeft.value.trim();
-
-    [...document.querySelectorAll('.friend')].forEach(function(friend) {
+    [...arrayFriends.querySelectorAll('.friend')].forEach(function(friend) {
         let friendName = friend.querySelector('.friend__name').innerText;
 
-        if (isMatching(friendName, value)) {
-            friend.style.display = 'flex';
-        } else {
-            friend.style.display = 'none';
-        }
-
+        (isMatching(friendName, value)) ? friend.style.display = 'flex' : friend.style.display = 'none';
     })
 }
 
-/**
- * Поиск друга в правой колонке
- */
+searchInputLeft.addEventListener('keyup', (e) => {
+    filterFriend(searchInputLeft, loadedFriends);
+});
 
-function filterFriendRight() {
-    let value = searchInputLeft.value.trim();
-
-    [... document.querySelectorAll('.friend')].forEach(function(friend) {
-
-        let friendName = friend.querySelector('.friend__name').innerText;
-
-        if (isMatching(friendName, value)) {
-            friend.style.display = 'flex';
-        } else {
-            friend.style.display = 'none';
-        }
-
-    })
-}
-
-searchInputLeft.addEventListener('keyup', filterFriendLeft);
-searchInputRight.addEventListener('keyup', filterFriendRight);
-
-/**
- * Загрузка списков при перезагрузке
- */
+searchInputRight.addEventListener('keyup', (e) => {
+    filterFriend(searchInputRight, addedFriends);
+});
 
 function restartList() {
     login()

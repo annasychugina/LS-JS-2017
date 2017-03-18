@@ -29,6 +29,7 @@
     "webpack": "^2.2.0"
   },
   "devDependencies": {
+    "autoprefixer": "^6.7.7",
     "eslint": "^3.13.1",
     "karma": "^1.4.0",
     "karma-chrome-launcher": "^2.0.0",
@@ -38,6 +39,11 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.1",
     "mocha": "^3.2.0",
+    "node-sass": "^4.5.0",
+    "precss": "^1.4.0",
+    "sass": "^0.5.0",
+    "sass-loader": "^6.0.3",
+    "webpack": "^2.2.1",
     "webpack-dev-server": "^1.16.2"
   }
 }

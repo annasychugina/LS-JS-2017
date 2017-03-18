@@ -1,14 +1,22 @@
-let webpack = require('webpack');
-let HtmlPlugin = require('html-webpack-plugin');
-let CleanWebpackPlugin = require('clean-webpack-plugin');
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let loaders = require('./webpack.config.loaders')();
+const webpack = require('webpack');
+const HtmlPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const loaders = require('./webpack.config.loaders')();
 
 loaders.push({
     test: /\.css$/,
     loader: ExtractTextPlugin.extract({
         fallbackLoader: 'style-loader',
         loader: 'css-loader'
+    })
+});
+
+loaders.push({
+    test: /\.s?css$/,
+    loader: ExtractTextPlugin.extract({
+        fallbackLoader: 'style-loader',
+        loader: ['css-loader?minimize', 'sass-loader']
     })
 });
 
