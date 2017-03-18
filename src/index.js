@@ -49,6 +49,19 @@ function callAPI(method, params) {
     })
 }
 
+
+
+
+function localStorageSettings() {
+    if ('localstorage' in window && window['localstorage'] !== null) {
+        console.log('storage is ready');
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 /**
  * Сохранение данных в localstorage
  */
@@ -58,8 +71,13 @@ function saveList() {
     addedFriendsArray.forEach(item => {
         filteredFriends.push(item.id);
     });
-    localStorage.filteredFriends = JSON.stringify(filteredFriends);
-    alert("Сохранено!");
+
+    if ('localStorage' in window && window['localStorage'] !== null)  {
+        localStorage.filteredFriends = JSON.stringify(filteredFriends);
+        alert("Сохранено!");
+    } else {
+        alert("Сохранение невозможно. Браузер не поддерживает localstorage")
+    }
 }
 
 saveButton.addEventListener('click', saveList);
