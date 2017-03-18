@@ -15,7 +15,7 @@
   &__name {
     color: #4f4f4f;
     font-size: 12px;
-    padding-left: 7px;
+    padding: 0 7px;
     font-weight: bold;
   }
 
@@ -35,18 +35,7 @@
   }
 
   &__close {
-    position: absolute;
-    top: 0;
-    right: 20px;
-    bottom: 0;
-    margin: auto;
-    width: 20px;
-    height: 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.75;
-    outline: none;
+    @extend .friend__add;
     transform: rotate(45deg);
-    background: url("/images/add.png") center center no-repeat transparent;
   }
 }
