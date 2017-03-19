@@ -1,0 +1,41 @@
+.friend {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 5px 25px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: move;
+
+  &__photo {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+
+  &__name {
+    color: #4f4f4f;
+    font-size: 12px;
+    padding: 0 7px;
+    font-weight: bold;
+  }
+
+  &__add {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    bottom: 0;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.75;
+    outline: none;
+    background: url("/images/add.png") center center no-repeat transparent;
+  }
+
+  &__close {
+    @extend .friend__add;
+    transform: rotate(45deg);
+  }
+}
