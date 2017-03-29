@@ -22,11 +22,11 @@ loaders.push({
 
 module.exports = {
     entry: {
-        main: './src/index.js',
+        main: './src/map.js',
     },
     output: {
         filename: '[chunkhash].js',
-        path: './dist'
+        path: '/Users/anna/Desktop/mapL/dist'
     },
     devtool: 'source-map',
     module: {
