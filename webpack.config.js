@@ -22,7 +22,7 @@ loaders.push({
 
 module.exports = {
     entry: {
-        main: './src/map.js',
+        main: './src/main.js',
     },
     output: {
         filename: '[chunkhash].js',
