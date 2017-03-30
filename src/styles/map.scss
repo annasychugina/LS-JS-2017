@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+li {
+  list-style: none;
+}
+
 .container {
   width: 100%;
 }
@@ -183,4 +187,25 @@
   opacity: 0;
   -webkit-transition: opacity .5s, text-indent 1s;
   transition: opacity .5s, text-indent 1s;
+}
+
+.review__item {
+  color: #4f4f4f;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.review__author {
+  display: inline-block;
+  padding-right: 5px;
+}
+
+.review__place {
+  display: inline-block;
+  color: #ccc;
+}
+
+.review__date {
+  display: inline-block;
+  color: #ccc;
 }

@@ -1,10 +1,12 @@
 
 import {addPlacemark} from './map';
-let tcomment = require('../baloon-map.hbs');
+let tcomment = require('../comment.hbs');
+
+
 
 let reviewWindow = document.querySelector('.review');
 let reviewTittle = document.getElementById('location');
-let reviewBtn = document.querySelector('.review__close');
+let reviewClose = document.querySelector('.review__close');
 let reviewList = document.querySelector('.review__list');
 let reviewForm = document.querySelector('.form');
 let btn = document.querySelector('.review__add');
@@ -67,15 +69,55 @@ function dialog(position, coords, title = '') {
 
 	reviewWindow.classList.add('review_show');
 
+
+
 }
 
+
+var options = {
+	day: 'numeric',
+	month: 'numeric',
+	year: 'numeric',
+	timezone: 'UTC',
+	hour: 'numeric',
+	minute: 'numeric',
+	second: 'numeric'
+};
 reviewForm.addEventListener('submit', function(e) {
 	e.preventDefault();
 
-	var placemark = addPlacemark(coords);
+	let comment = {};
+
+	let author = e.target[0].value.trim();
+	let place = e.target[1].value.trim();
+	let date = new Date().toLocaleString("ru", options);
+	let text = e.target[2].value.trim();
+
+	comment.name = author;
+	comment.place = place;
+	comment.date = date;
+	comment.comment = text;
+	console.log(comment);
+
+
+	// var placemark = addPlacemark(coords, comment);
+
+	var placemark = addPlacemark(coords, {
+		balloonContent: tcomment({
+			comments: [comment]
+		})
+	});
+
 	map.geoObjects.add(placemark);
-	nameField.value = '';
+
+	reviewList.innerHTML += tcomment({
+		comments: [comment]
+	});
+
+	e.target[0].value = '';
+	e.target[1].value = '';
+	e.target[2].value = '';
 });
 
-
+reviewClose.addEventListener('click', (e) => reviewWindow.classList.toggle('review'));
 
