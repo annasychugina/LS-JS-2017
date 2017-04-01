@@ -3,11 +3,13 @@ import mapCarouselTemplate from '../carousel.html';
 
 require('./styles/map.scss');
 let tcomment = require('../comment.hbs');
+
 let reviewWindow = document.querySelector('.review');
 let reviewTittle = document.getElementById('location');
 let reviewClose = document.querySelector('.review__close');
 let reviewList = document.querySelector('.review__list');
 let reviewForm = document.querySelector('.form');
+let reviewTitle = document.querySelector('.review__tittle');
 let mymap = document.getElementById('map');
 
 let options = {
@@ -64,11 +66,17 @@ new Promise(resolve => ymaps.ready(resolve))
 			let place = e.target[1].value.trim();
 			let date = new Date().toLocaleString("ru", options);
 			let text = e.target[2].value.trim();
+			let address = reviewTitle.textContent;
+
+
 
 			comment.name = author;
 			comment.place = place;
 			comment.date = date;
 			comment.comment = text;
+			comment.address = address;
+
+			console.log(comment.address);
 
 			var placemark = addPlacemark(coordinate.split(','), comment);
 
@@ -99,10 +107,10 @@ new Promise(resolve => ymaps.ready(resolve))
 			let object = e.get('target');
 
 			if (object.options.getName() === 'geoObject') {
-				let coordss = object.geometry.getCoordinates();
+				let coords = object.geometry.getCoordinates();
 				let posY = e.get('domEvent').get('pageY');
 				let posX = e.get('domEvent').get('pageX');
-				openDialog([posY, posX], coordss);
+				openDialog([posY, posX], coords);
 			}
 		});
 
@@ -194,7 +202,7 @@ function openDialog(position, coo){
 mymap.addEventListener('click', function(e) {
 	let link = e.target;
 
-	if (link.classList.contains('baloon__link')) {
+	if (link.classList.contains('carousel__link')) {
 		let coordinate = link.dataset.coords.split(',');
 		let posY = e.pageY;
 		let posX = e.pageX;

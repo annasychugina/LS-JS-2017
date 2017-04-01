@@ -9,6 +9,7 @@ li {
 .container {
   width: 100%;
 }
+
 .map {
   position: absolute;
   top: 0;
@@ -28,50 +29,85 @@ li {
   background: #fff;
   visibility: hidden;
   opacity: 0;
-}
 
-.review_show {
-  opacity: 1;
-  visibility: visible;
-}
+  &_show {
+    opacity: 1;
+    visibility: visible;
+  }
 
-.review__icon {
-  position: absolute;
-  left: 5px;
-  background: url("/images/placeholder.svg") 50% center / 100% no-repeat;
-  background-size: 100%;
-  height: 10px;
-  width: 10px;
-}
+  &__icon {
+    position: absolute;
+    left: 5px;
+    background: url("/images/placeholder.svg") 50% center / 100% no-repeat;
+    background-size: 100%;
+    height: 10px;
+    width: 10px;
+  }
 
-.review__tittle {
-  padding: 10px;
-}
+  &__tittle {
+    padding: 10px;
+  }
 
-.review__header {
-  color: #fff;
-  font-size: 16px;
-  width: 100%;
-  margin: 0;
-  padding: 10px;
-  background:  #f5856d;
-}
+  &__header {
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    background:  #f5856d;
+  }
 
-.review__close {
-  position: absolute;
-  top: 10px;
-  height: 20px;
-  right: 18px;
-  border: none;
-  cursor: pointer;
-  background: url("/images/close.png") center center no-repeat;
-}
+  &__close {
+    position: absolute;
+    top: 10px;
+    height: 20px;
+    right: 18px;
+    border: none;
+    cursor: pointer;
+    background: url("/images/close.png") center center no-repeat;
+  }
 
-.review__list {
-  padding: 15px 20px;
-  position: relative;
-  height: 170px;
-  overflow: auto;
+  &__list {
+    padding: 15px 20px;
+    position: relative;
+    height: 170px;
+    overflow: auto;
+  }
+
+  &__add {
+    background: #f5856d;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    min-height: 30px;
+    margin-left: auto;
+    display: block;
+  }
+
+  &__item {
+    color: #4f4f4f;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  &__author {
+    display: inline-block;
+    padding-right: 5px;
+  }
+
+  &__place {
+    display: inline-block;
+    color: #ccc;
+  }
+
+  &__date {
+    display: inline-block;
+    color: #ccc;
+  }
 }
 
 .form {
@@ -79,51 +115,36 @@ li {
   overflow: auto;
   zoom: 1;
   position: relative;
-}
 
-.form__tittle {
-  text-transform: uppercase;
-  color: #f5856d;
-}
+  &__tittle {
+    text-transform: uppercase;
+    color: #f5856d;
+  }
 
-.form__input {
-  width: 100%;
-  color: #9f9f9f;
-  padding: 5px 10px;
-  border-radius: 15px;
-  border: 1px solid #f0f0f0;
-  outline: none;
-  font-size: 12px;
-  margin-bottom: 10px;
-}
+  &__review {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #f0f0f0;
+    resize: none;
+    height: 100px;
+    outline: none;
+    font-size: 12px;
+  }
 
-.form__review {
-  width: 100%;
-  padding: 10px 15px;
-  border-radius: 20px;
-  border: 1px solid #f0f0f0;
-  resize: none;
-  height: 100px;
-  outline: none;
-  font-size: 12px;
-}
-
-.review__add {
-  background: #f5856d;
-  outline: none;
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  padding: 10px 20px;
-  cursor: pointer;
-  text-decoration: none;
-  min-height: 30px;
-  margin-left: auto;
-  display: block;
-}
-
-.form__input:focus {
-  border: 1px solid #9f9f9f;
+  &__input {
+    width: 100%;
+    color: #9f9f9f;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 1px solid #f0f0f0;
+    outline: none;
+    font-size: 12px;
+    margin-bottom: 10px;
+    &:focus {
+      border: 1px solid #9f9f9f;
+    }
+  }
 }
 
 ::-webkit-input-placeholder {
@@ -182,40 +203,29 @@ li {
   transition: opacity .5s, text-indent 1s;
 }
 
-.review__item {
-  color: #4f4f4f;
-  font-size: 16px;
-  margin-bottom: 20px;
+.carousel {
+
+  &__header {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 35px;
+    color: #708090;
+  }
+
+  &__body {
+    font-size: 14px;
+  }
+
+  &__footer {
+    font-size: 12px;
+    text-align: right;
+    color: #7D7D7D;
+    margin-top: 10px;
+  }
+
+  &__comments {
+    display: block;
+  }
+
 }
 
-.review__author {
-  display: inline-block;
-  padding-right: 5px;
-}
-
-.review__place {
-  display: inline-block;
-  color: #ccc;
-}
-
-.review__date {
-  display: inline-block;
-  color: #ccc;
-}
-
-
-.ballon__header {
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 35px;
-  color: #708090;
-}
-.ballon__body {
-  font-size:14px;
-}
-.ballon__footer {
-  font-size: 12px;
-  text-align: right;
-  color: #7D7D7D;
-  margin-top: 10px;
-}
