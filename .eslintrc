@@ -12,7 +12,8 @@
   "globals": {
     "Proxy": true,
     "VK": true,
-    "Promise": true
+    "Promise": true,
+    "ymaps": true
   },
   "extends": [
     "eslint:recommended"
@@ -33,13 +34,7 @@
       "error",
       "1tbs"
     ],
-    "indent": [
-      "error",
-      4,
-      {
-        "SwitchCase": 1
-      }
-    ],
+    "indent": [2, "tab"],
     "max-len": [
       "error",
       120
