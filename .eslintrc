@@ -54,7 +54,6 @@
       }
     ],
     "no-nested-ternary": "error",
-    "no-tabs": "error",
     "one-var-declaration-per-line": "error",
     "quotes": [
       "error",

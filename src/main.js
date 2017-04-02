@@ -3,17 +3,17 @@ import mapCarouselTemplate from '../carousel.html';
 import {toLocalSorage, fromLocalStorage} from './store';
 
 require('./styles/map.scss');
-let tcomment = require('../comment.hbs');
+const tcomment = require('../comment.hbs');
 
-let reviewWindow = document.querySelector('.review');
-let reviewTittle = document.getElementById('location');
-let reviewClose = document.querySelector('.review__close');
-let reviewList = document.querySelector('.review__list');
-let reviewForm = document.querySelector('.form');
-let reviewTitle = document.querySelector('.review__tittle');
-let mymap = document.getElementById('map');
+const reviewWindow = document.querySelector('.review');
+const reviewTittle = document.getElementById('location');
+const reviewClose = document.querySelector('.review__close');
+const reviewList = document.querySelector('.review__list');
+const reviewForm = document.querySelector('.form');
+const reviewTitle = document.querySelector('.review__tittle');
+const mymap = document.getElementById('map');
 
-let options = {
+const options = {
 	day: 'numeric',
 	month: 'numeric',
 	year: 'numeric',
@@ -28,14 +28,13 @@ let coords;
 
 new Promise(resolve => ymaps.ready(resolve))
 	.then(() => {
-		map = new ymaps.Map("map", {
-			center: [55.751574, 37.573856],
-			zoom: [12]
-		});
+	map = new ymaps.Map("map", {
+		center: [55.751574, 37.573856],
+		zoom: [12]
+	});
+	let customItemContentLayout = ymaps.templateLayoutFactory.createClass(mapCarouselTemplate);
 
-		let customItemContentLayout = ymaps.templateLayoutFactory.createClass(mapCarouselTemplate);
-
-		var clusterer = new ymaps.Clusterer({
+	let clusterer = new ymaps.Clusterer({
 			preset: 'islands#invertedVioletClusterIcons',
 			clusterBalloonContentLayout: 'cluster#balloonCarousel',
 			groupByCoordinates: false,
@@ -49,69 +48,66 @@ new Promise(resolve => ymaps.ready(resolve))
 			gridSize: 50
 		});
 
+	map.events.add('click', function(e) {
+		coords = e.get('coords');
+		createMW(e, coords);
+	});
 
-		map.events.add('click', function(e) {
-			coords = e.get('coords');
-			createMW(e, coords);
+	map.geoObjects.add(clusterer);
+
+	reviewForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+
+		let comment = {};
+
+		let author = e.target[0].value.trim();
+		let coordinate = reviewWindow.dataset.coords;
+		let place = e.target[1].value.trim();
+		let date = new Date().toLocaleString("ru", options);
+		let text = e.target[2].value.trim();
+		let address = reviewTitle.textContent;
+
+		comment.name = author;
+		comment.place = place;
+		comment.date = date;
+		comment.comment = text;
+		comment.address = address;
+
+		var placemark = addPlacemark(coordinate.split(','), comment);
+
+		map.geoObjects.add(placemark);
+
+		// Добавляем метку в кластер
+		clusterer.add(placemark);
+
+		reviewList.innerHTML += tcomment({
+			comments: [comment]
 		});
 
-		map.geoObjects.add(clusterer);
+		e.target[0].value = '';
+		e.target[1].value = '';
+		e.target[2].value = '';
 
-		reviewForm.addEventListener('submit', (e) => {
-			e.preventDefault();
+		let baloon = fromLocalStorage(coords);
+		baloon.comments.push(comment);
 
-			let comment = {};
-
-			let author = e.target[0].value.trim();
-			let coordinate = reviewWindow.dataset.coords;
-			let place = e.target[1].value.trim();
-			let date = new Date().toLocaleString("ru", options);
-			let text = e.target[2].value.trim();
-			let address = reviewTitle.textContent;
-
-			comment.name = author;
-			comment.place = place;
-			comment.date = date;
-			comment.comment = text;
-			comment.address = address;
-
-			var placemark = addPlacemark(coordinate.split(','), comment);
-
-			map.geoObjects.add(placemark);
-
-			// Добавляем метку в кластер
-			clusterer.add(placemark);
-
-			reviewList.innerHTML += tcomment({
-				comments: [comment]
-			});
-
-
-			e.target[0].value = '';
-			e.target[1].value = '';
-			e.target[2].value = '';
-
-
-			let baloon = fromLocalStorage(coords);
-			baloon.comments.push(comment);
-
-			//сохраняем координаты балуна
-			baloon.coords = coords;
-			toLocalSorage(coords, baloon);
+		//сохраняем координаты балуна
+		baloon.coords = coords;
+		toLocalSorage(coords, baloon);
 		});
 
-		clusterer.events.add('click', function (e) {
-			let object = e.get('target');
+	clusterer.events.add('click', function(e) {
+		let object = e.get('target');
 
-			if (object.options.getName() === 'geoObject') {
-				let coords = object.geometry.getCoordinates();
-				let posY = e.get('domEvent').get('pageY');
-				let posX = e.get('domEvent').get('pageX');
-				openDialog([posY, posX], coords);
-			}
-		});
+		if (object.options.getName() === 'geoObject') {
+			let coords = object.geometry.getCoordinates();
+			let posY = e.get('domEvent').get('pageY');
+			let posX = e.get('domEvent').get('pageX');
+			openDialog([posY, posX], coords);
+		}
+	});
 
-		init(map, clusterer);
+	init(map, clusterer);
 });
 
 function createMW(e, coords) {
@@ -130,7 +126,6 @@ function createMW(e, coords) {
 			dialog([posY, posX], coords, baloon);
 		})
 }
-
 
 function setPosition(position) {
 	if ((innerHeight - position[0]) > reviewWindow.clientHeight) {
@@ -171,7 +166,7 @@ function dialog(position, coords, baloon) {
 	reviewWindow.classList.add('review_show');
 }
 
-function openDialog(position, coo){
+function openDialog(position, coo) {
 	let pos = [position[0], position[1]];
 	let coordinate = coo;
 	let baloon = fromLocalStorage(coordinate);
@@ -213,7 +208,6 @@ function init(map, clusterer) {
 				}
 
 				for (let comment of baloon.comments) {
-
 					let placemark = addPlacemark(coord, comment);
 
 					map.geoObjects.add(placemark);
