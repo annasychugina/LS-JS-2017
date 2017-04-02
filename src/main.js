@@ -1,5 +1,6 @@
 import {addPlacemark} from './placemark';
 import mapCarouselTemplate from '../carousel.html';
+import {toLocalSorage, fromLocalStorage} from './store';
 
 require('./styles/map.scss');
 let tcomment = require('../comment.hbs');
@@ -56,7 +57,7 @@ new Promise(resolve => ymaps.ready(resolve))
 
 		map.geoObjects.add(clusterer);
 
-		reviewForm.addEventListener('submit', function(e) {
+		reviewForm.addEventListener('submit', (e) => {
 			e.preventDefault();
 
 			let comment = {};
@@ -68,15 +69,11 @@ new Promise(resolve => ymaps.ready(resolve))
 			let text = e.target[2].value.trim();
 			let address = reviewTitle.textContent;
 
-
-
 			comment.name = author;
 			comment.place = place;
 			comment.date = date;
 			comment.comment = text;
 			comment.address = address;
-
-			console.log(comment.address);
 
 			var placemark = addPlacemark(coordinate.split(','), comment);
 
@@ -116,23 +113,6 @@ new Promise(resolve => ymaps.ready(resolve))
 
 		init(map, clusterer);
 });
-
-
-function toLocalSorage(coords, baloon) {
-	let c = coords.join(',');
-	localStorage.setItem(c, JSON.stringify(baloon));
-}
-
-function fromLocalStorage(coords) {
-	let c = coords.join(',');
-	let baloon = localStorage.getItem(c);
-	if (!baloon) {
-		return undefined;
-	}
-
-	return JSON.parse(baloon);
-}
-
 
 function createMW(e, coords) {
 
@@ -199,7 +179,7 @@ function openDialog(position, coo){
 	dialog(pos, coordinate, baloon);
 }
 
-mymap.addEventListener('click', function(e) {
+mymap.addEventListener('click', (e) => {
 	let link = e.target;
 
 	if (link.classList.contains('carousel__link')) {
@@ -216,16 +196,13 @@ reviewClose.addEventListener('click', (e) => reviewWindow.classList.toggle('revi
 function init(map, clusterer) {
 	if (localStorage.length) {
 		let keys = Object.getOwnPropertyNames(localStorage);
-		console.log(keys);
 		for (let key in keys) {
 			let coord = keys[key];
 			let baloon = localStorage.getItem(coord);
-			console.log(baloon);
 
 			if (baloon) {
 				try {
 					baloon = JSON.parse(baloon);
-					console.log(baloon);
 				}
 				catch (err) {
 					continue;
@@ -236,7 +213,6 @@ function init(map, clusterer) {
 				}
 
 				for (let comment of baloon.comments) {
-					console.log(comment);
 
 					let placemark = addPlacemark(coord, comment);
 
