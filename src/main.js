@@ -1,9 +1,9 @@
 import { addPlacemark } from './placemark';
-import mapCarouselTemplate from '../carousel.html';
+import mapCarouselTemplate from '../templates/carousel.html';
 import { toLocalSorage, fromLocalStorage } from './store';
 
 require('./styles/map.scss');
-const tcomment = require('../comment.hbs');
+const tcomment = require('../templates/comment.hbs');
 
 const reviewWindow = document.querySelector('.review');
 const reviewTittle = document.getElementById('location');
@@ -32,8 +32,8 @@ new Promise(resolve => ymaps.ready(resolve))
 			center: [55.751574, 37.573856],
 			zoom: [12]
 		});
-		let customItemContentLayout = ymaps.templateLayoutFactory.createClass(mapCarouselTemplate);
 
+		let customItemContentLayout = ymaps.templateLayoutFactory.createClass(mapCarouselTemplate);
 		let clusterer = new ymaps.Clusterer({
 			preset: 'islands#invertedVioletClusterIcons',
 			clusterBalloonContentLayout: 'cluster#balloonCarousel',
@@ -47,6 +47,8 @@ new Promise(resolve => ymaps.ready(resolve))
 			clusterOpenBalloonOnClick: true,
 			gridSize: 50
 		});
+
+		init(map, clusterer);
 
 		map.events.add('click', function(e) {
 			coords = e.get('coords');
@@ -73,7 +75,7 @@ new Promise(resolve => ymaps.ready(resolve))
 			comment.comment = text;
 			comment.address = address;
 
-			var placemark = addPlacemark(coordinate.split(','), comment);
+			let placemark = addPlacemark(coordinate.split(','), comment);
 
 			map.geoObjects.add(placemark);
 
@@ -108,8 +110,6 @@ new Promise(resolve => ymaps.ready(resolve))
 				openDialog([posY, posX], coords);
 			}
 		});
-
-		init(map, clusterer);
 	});
 
 function createMW(e, coords) {
@@ -195,27 +195,28 @@ function init(map, clusterer) {
 		let keys = Object.getOwnPropertyNames(localStorage);
 
 		for (let key in keys) {
-			let coord = keys[key];
-			let baloon = localStorage.getItem(coord);
 
-			if (baloon) {
-				try {
-					baloon = JSON.parse(baloon);
-				} catch (err) {
-					continue;
-				}
+			if ( keys.hasOwnProperty(key) ) {
+				let coord = keys[key];
+				let baloon = localStorage.getItem(coord);
 
-				if (!baloon.title) {
-					continue;
-				}
+				if (baloon) {
+					try {
+						baloon = JSON.parse(baloon);
+					} catch (err) {
+						continue;
+					}
 
-				for (let comment of baloon.comments) {
-					let placemark = addPlacemark(coord, comment);
+					if (!baloon.title) {
+						continue;
+					}
 
-					map.geoObjects.add(placemark);
+					for (let comment of baloon.comments) {
+						let placemark = addPlacemark(coord.split(','), comment);
 
-					// Добавляем метку в кластер
-					clusterer.add(placemark);
+						map.geoObjects.add(placemark);
+						clusterer.add(placemark);
+					}
 				}
 			}
 		}
