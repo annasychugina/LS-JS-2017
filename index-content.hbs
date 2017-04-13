@@ -1,32 +1,23 @@
-<script type="text/javascript" src="https://vk.com/js/api/openapi.js?122"></script>
-
-<div class="friends-container">
-	<div class="friends-container__logo">
-		<!--<img src="./images/logo.png" alt="logo" class="filter__img">-->
-	</div>
-	<div class="friends-container__popup" id="content">
-		<div class="friends-container__main">
-				<h2 class="friends-container__tittle">Выберите друзей</h2>
-			<button class="friends-container__close"></button>
-
-
-			<div class="friends-container__search">
-				<input class="friends-container__input friends-container__input_load" type="text" placeholder="Начните вводить имя друга" id="leftSearch">
-			</div>
-			<div class="friends-container__search">
-				<input class="friends-container__input friends-container__input_add" type="text" placeholder="Начните вводить имя друга" id="rightSearch">
-			</div>
-			<div class="friends-container__content">
-				<div class="friends-container__list-tittle">Ваши друзья</div>
-				<ul class="friends-container__list" id="loaded"></ul>
-			</div>
-			<div class="friends-container__content">
-				<div class="friends-container__list-tittle">Друзья в списке</div>
-				<ul class="friends-container__list" id="added"></ul>
-			</div>
-			<div class="friends-container__bottom">
-				<button class="friends-container__save" id="save">Сохранить</button>
-			</div>
+<div class="container">
+	<div class="map" id="map"></div>
+	<div class="review">
+		<div class="review__header">
+			<span class="review__icon"></span>
+			<span class="review__tittle" id="location"></span>
+			<button class="review__close"></button>
 		</div>
+		<ul class="review__list">
+		</ul>
+		<form class="form">
+			<p class="form__tittle">
+				Ваш отзыв
+			</p>
+			<input class="form__input" type="text" name="name" placeholder="Ваше Имя">
+			<input class="form__input" type="text" name="place" placeholder="Укажите место">
+			<textarea class="form__review" name="message" placeholder="Поделитесь впечатлениями"></textarea>
+			<button class="review__add" type="submit">Добавить</button>
+		</form>
 	</div>
 </div>
+
+
